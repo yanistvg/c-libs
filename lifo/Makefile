@@ -5,6 +5,9 @@ NAME=lifo
 OBJS= lifo.o    \
 	  intLifo.o
 
+TESTOBJ= test.o      \
+         lifo.test.o
+
 lib: $(OBJS)
 	$(CC) -shared -o lib$(NAME).so $(OBJS) -lm
 
@@ -14,7 +17,12 @@ intLifo.o: srcs/intLifo.c headers/lifo.h
 	$(CC) $(FLAGS) -c srcs/intLifo.c
 
 test: lib
-	$(CC) test.c -L./ -l$(NAME) -o test
+	$(CC) -c lifo-test/lifo.test.c
+	$(CC) -c test.c
+	$(CC) -L./ -l$(NAME) -o test $(TESTOBJ)
 
-clean:
+clean: cleanTest
 	rm -rf lib$(NAME).so $(OBJS)
+
+cleanTest:
+	rm -rf $(TESTOBJ) test
