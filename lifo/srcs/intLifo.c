@@ -115,6 +115,26 @@ int intLifoGetCell(lifo_t **lifo, int index) {
 	return (int)(size_t)lifoGetCell(lifo, index);
 }
 
+/**
+ * intLifoMax over right lifoMax to return an int value
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+int intLifoMax(lifo_t **lifo) {
+	return (int)(size_t)lifoMax(lifo);
+}
+
+/**
+ * intLifoMin over right lifoMin to return an int value
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+int intLifoMin(lifo_t **lifo) {
+	return (int)(size_t)lifoMin(lifo);
+}
+
 
 
 /**********************************************/
