@@ -8,7 +8,7 @@
  * @returns NULL     if an error of allocation
  * 
  * @author Yanis GENY
- * @version 1.0
+ * @version 1.1 : update because adding function pointer into lifo structure
  */
 lifo_t *lifoCreate(void) {
 	lifo_t *newLifo = NULL;
@@ -21,6 +21,8 @@ lifo_t *lifoCreate(void) {
 
 	newLifo->lifoPrintCell = (void (*)(void*))NULL;
 	newLifo->lifoFreeCell = (void (*)(void*))NULL;
+	newLifo->lifoSearchMax = (void *(*)(void*, void*))NULL;
+	newLifo->lifoSearchMin = (void *(*)(void*, void*))NULL;
 
 	return (lifo_t *)newLifo;
 }
@@ -260,4 +262,94 @@ int lifoAddNCells(lifo_t **lifo, void **cell, unsigned int N) {
 	}
 
 	return _LIFO_SUCCESS_;
+}
+
+/**
+ * lifoGetCell give a cell int the list found by is index
+ * 
+ * @param lifo addresse of the lifo structure
+ * @param index of the cell to get
+ * 
+ * @return void*               addr of the data into the cell
+ * @return _LIFO_NOT_INIT_     if the lifo list are not init
+ * @return _LIFO_OUT_OF_RANGE_ if index is gretter than the number of cells
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+void *lifoGetCell(lifo_t **lifo, unsigned int index) {
+	struct lifo_structure *cell = (struct lifo_structure *)NULL;
+	unsigned int i=0;
+
+	if ((*lifo) == (lifo_t*)NULL)  return (void*)_LIFO_NOT_INIT_;
+	if ((*lifo)->lifo_length < index) return (void*)_LIFO_OUT_OF_RANGE_;
+
+	cell = (struct lifo_structure *)(*lifo)->head;
+	while (i++ < index) cell = (struct lifo_structure *)cell->next;
+
+	return (void*)cell->data;
+}
+
+/**
+ * lifoMax search the cell this the value greater. This function
+ * use lifoSearchMax function do create by the developer
+ * 
+ * @param lifo addresse of the lifo structure
+ * 
+ * @return void* addr of the greatter cell
+ * @return NULL if the list are not init or no cells is in the list
+ * or the function lifoSearchMax are not set
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+void *lifoMax(lifo_t **lifo) {
+	void *max;
+	struct lifo_structure *cell;
+
+	if ((*lifo) == (lifo_t*)NULL)  return (void*)NULL;
+	if ((*lifo)->lifo_length <= 0) return (void*)NULL;
+	if ((*lifo)->lifoSearchMax == (void *(*)(void*,void*))NULL) return NULL;
+
+	max = (void*)((*lifo)->head->data);
+	cell = (struct lifo_structure *)((*lifo)->head->next);
+
+	while (cell != (struct lifo_structure *)NULL) {
+		max = (void*)(*lifo)->lifoSearchMax(max, cell->data);
+		cell = (struct lifo_structure *)cell->next;
+	}
+
+	return max;
+}
+
+/**
+ * lifoMin search the cell this the value minesse. This function
+ * use lifoSearchMin function do create by the developer
+ * 
+ * @param lifo addresse of the lifo structure
+ * 
+ * @return void* addr of the minesse cell
+ * @return NULL if the list are not init or no cells is in the list
+ * or the function lifoSearchMin are not set
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+void *lifoMin(lifo_t **lifo) {
+	void *min;
+	struct lifo_structure *cell;
+
+	if ((*lifo) == (lifo_t*)NULL)  return (void*)NULL;
+	if ((*lifo)->lifo_length <= 0) return (void*)NULL;
+	if ((*lifo)->lifoSearchMin == (void *(*)(void*,void*))NULL) return NULL;
+
+	min = (void*)((*lifo)->head->data);
+	cell = (struct lifo_structure *)((*lifo)->head->next);
+
+	while (cell != (struct lifo_structure *)NULL) {
+		min = (void*)(*lifo)->lifoSearchMin(min, cell->data);
+		cell = (struct lifo_structure *)cell->next;
+	}
+
+	return min;
 }

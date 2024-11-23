@@ -8,7 +8,7 @@
  * @returns NULL     if an error of allocation
  * 
  * @author Yanis GENY
- * @version 1.0
+ * @version 1.1 : update because adding function pointer into lifo structure
  */
 lifo_t *intLifoCreate(void) {
 	lifo_t *newIntLifo = (lifo_t*)NULL;
@@ -17,6 +17,8 @@ lifo_t *intLifoCreate(void) {
 		return (lifo_t*)NULL;
 
 	newIntLifo->lifoPrintCell = (void(*)(void*))intLifoPrintCell;
+	newIntLifo->lifoSearchMax = (void*(*)(void*, void*))intLifoSearchMax;
+	newIntLifo->lifoSearchMin = (void*(*)(void*, void*))intLifoSearchMin;
 	return newIntLifo;
 }
 
@@ -96,6 +98,30 @@ int intLifoAddNCells(lifo_t **lifo, int cell[], unsigned int N) {
 	return _LIFO_SUCCESS_;
 }
 
+/**
+ * intLifoGetCell extract the int value from the list with an index
+ * 
+ * @param lifo addresse of the lifo structure
+ * @param index
+ * 
+ * @return int value of the cell at index
+ * @return _LIFO_NOT_INIT_     if the lifo list are not init
+ * @return _LIFO_OUT_OF_RANGE_ if index is gretter than the number of cells
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+int intLifoGetCell(lifo_t **lifo, int index) {
+	return (int)(size_t)lifoGetCell(lifo, index);
+}
+
+
+
+/**********************************************/
+/***                                        ***/
+/*** Functions to set in the lifo structure ***/
+/***                                        ***/
+/**********************************************/
 
 /**
  * intLifoPrintCell is the function to store in lifo structure
@@ -108,4 +134,42 @@ int intLifoAddNCells(lifo_t **lifo, int cell[], unsigned int N) {
  */
 void intLifoPrintCell(int value) {
 	printf("%d ", (int)value);
+}
+
+/**
+ * intLifoSearchMax is a function who compare to cells
+ * a and b to return the value of the greatter
+ * 
+ * @param a cell
+ * @param b cell
+ * 
+ * @return void* the greatter cells
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+void *intLifoSearchMax(void *a, void *b) {
+	return (int)(size_t)a >= (int)(size_t)b
+		? a
+		: b
+	;
+}
+
+/**
+ * intLifoSearchMin is a function who compare to cells
+ * a and b to return the value of the minesse
+ * 
+ * @param a cell
+ * @param b cell
+ * 
+ * @return void* the minus cells
+ * 
+ * @author Yanis GENY
+ * @version 1.0
+ */
+void *intLifoSearchMin(void *a, void *b) {
+	return (int)(size_t)a < (int)(size_t)b
+		? a
+		: b
+	;
 }

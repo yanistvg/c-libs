@@ -8,12 +8,18 @@ void printTestResult(int testReturn, char *msg, int *counter);
 void printTestConclusion(int nb_test, int nb_test_success);
 
 int main(void) {
-	int nb_test = 1;
+	int nb_test = 3;
 	int nb_test_success = 0;
 	int returned_value;
 
 	returned_value = lifo_test_with_not_init_lifo();
 	printTestResult(returned_value, "LIFO NOT INIT", &nb_test_success);
+
+	returned_value = lifo_test_create_and_destroy_lifo();
+	printTestResult(returned_value, "LIFO CREATION AND DELATION", &nb_test_success);
+
+	returned_value = lifo_test_cell_creation_and_delation();
+	printTestResult(returned_value, "LIFO CELLS CREATION AND DELATION", &nb_test_success);
 
 	/* write the conclusion */
 	printTestConclusion(nb_test, nb_test_success);
@@ -34,8 +40,8 @@ int main(void) {
  */
 void printTestResult(int testReturn, char *msg, int *counter) {
 	testReturn
-		? printf("%sTest %s failed%s\n", RED, msg, DEFAULT_COLOR)
-		: printf("%sTest %s success%s\n", GREEN, msg, DEFAULT_COLOR)
+		? printf("%sTest %s failed%s\n\n", RED, msg, DEFAULT_COLOR)
+		: printf("%sTest %s success%s\n\n", GREEN, msg, DEFAULT_COLOR)
 	;
 
 	(*counter) += testReturn ? 0 : 1;
