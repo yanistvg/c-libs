@@ -68,7 +68,6 @@
 	extern lifo_t *intLifoCreate(void);
 	extern int intLifoAdd(lifo_t **lifo, int value);
 	extern int intLifoPop(lifo_t **lifo);
-	extern int intLifoPop(lifo_t **lifo);
 	extern void intLifoPrintList(lifo_t **lifo);
 	extern int intLifoAddNCells(lifo_t **lifo, int cell[], unsigned int N);
 	extern int intLifoGetCell(lifo_t **lifo, int index);
@@ -86,9 +85,33 @@
 	/**                                                **/
 	/****************************************************/
 	extern lifo_t *floatLifoCreate(void);
+	extern int floatLifoAdd(lifo_t **lifo, float value);
+	extern float floatLifoPop(lifo_t **lifo);
+	extern void floatLifoPrintList(lifo_t **lifo);
+	extern int floatLifoAddNCells(lifo_t **lifo, float cell[], unsigned int N);
+	extern float floatLifoGetCell(lifo_t **lifo, int index);
 
 	extern void floatLifoPrintCell(float value);
 	extern void *floatLifoSearchMax(void *a, void *b);
 	extern void *floatLifoSearchMin(void *a, void *b);
+
+	/****************************************************/
+	/**                                                **/
+	/** Declaration of code to create a lifo structure **/
+	/** for char values                                **/
+	/**                                                **/
+	/****************************************************/
+	extern lifo_t *charLifoCreate(void);
+	extern int charLifoAdd(lifo_t **lifo, char value);
+	extern char charLifoPop(lifo_t **lifo);
+	extern void charLifoPrintList(lifo_t **lifo);
+	extern int charLifoAddNCells(lifo_t **lifo, char cell[], unsigned int N);
+	extern char charLifoGetCell(lifo_t **lifo, int index);
+	extern char charLifoMax(lifo_t **lifo);
+	extern char charLifoMin(lifo_t **lifo);
+
+	extern void charLifoPrintCell(char value);
+	extern void *charLifoSearchMax(void *a, void *b);
+	extern void *charLifoSearchMin(void *a, void *b);
 
 #endif

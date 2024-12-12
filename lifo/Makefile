@@ -2,8 +2,10 @@ CC=gcc
 FLAGS=-Wall -pedantic -std=c99
 
 NAME=lifo
-OBJS= lifo.o    \
-	  intLifo.o
+OBJS= lifo.o      \
+	  intLifo.o   \
+	  floatLifo.o \
+	  charLifo.o
 
 TESTOBJ= test.o      \
          lifo.test.o
@@ -15,6 +17,10 @@ lifo.o: srcs/lifo.c headers/lifo.h
 	$(CC) $(FLAGS) -c srcs/lifo.c
 intLifo.o: srcs/intLifo.c headers/lifo.h
 	$(CC) $(FLAGS) -c srcs/intLifo.c
+floatLifo.o: srcs/floatLifo.c headers/lifo.h
+	$(CC) $(FLAGS) -c srcs/floatLifo.c
+charLifo.o: srcs/charLifo.c headers/lifo.h
+	$(CC) $(FLAGS) -c srcs/charLifo.c
 
 test: lib
 	$(CC) -c lifo-test/lifo.test.c
